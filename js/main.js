@@ -25,7 +25,7 @@ const Algo = {
             x += xStep;
             y += yStep;
         }
-        showResult(this.points);
+        showResult(points);
     },
     bresenhamLine: () => {
         let x = point[0][0];
