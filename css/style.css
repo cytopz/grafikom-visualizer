@@ -38,6 +38,12 @@ footer {
     margin-top: auto;
 }
 
+.subtitle > p{
+    color: #222;
+    margin-bottom: 7px;
+    font-weight: 900;
+}
+
 .links {
     width: 50%;
     text-align: center;

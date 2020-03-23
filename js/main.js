@@ -46,6 +46,42 @@ const Algo = {
             if (e2 <= dx) { err += dx; y += sy; };
         }
         showResult(points);
+    },
+    bresenhamCircle: (radius) => {
+        const fill8Octants = (center, point) => {
+            let xc = center[0],
+                yc = center[1],
+                x = point[0],
+                y = point[1];
+            console.log(xc, yc, x, y);
+            try {
+                fillPixel(document.getElementById(`${xc+x},${yc+y}`), green);
+                fillPixel(document.getElementById(`${xc-x},${yc+y}`), green);
+                fillPixel(document.getElementById(`${xc+x},${yc-y}`), green);
+                fillPixel(document.getElementById(`${xc-x},${yc-y}`), green);
+                fillPixel(document.getElementById(`${xc+x},${yc+y}`), green);
+                fillPixel(document.getElementById(`${xc-x},${yc+y}`), green);
+                fillPixel(document.getElementById(`${xc+x},${yc-y}`), green);
+                fillPixel(document.getElementById(`${xc-x},${yc-y}`), green);
+            }
+            catch(err) {
+                return;
+            }
+        }
+        let center = [point[0][0], point[0][1]];
+        let x = 0;
+        let y = radius;
+        let d = 3 - 2 * radius;
+        while (y >= x) {
+            x++;
+            if (d > 0) {
+                y--;
+                d += 4 * (x - y) +10;
+            } else {
+                d += 4 * x + 6;
+            }
+            fill8Octants(center, [x, y]);
+        }
     }
 }
 
@@ -87,8 +123,15 @@ const select = (x, y) => {
     selectedPoint++;
     point.push([x, y]);
     document.querySelector('.selected-point').innerHTML += `<b>(${x}, ${y}) </b>`
-    if (selectedPoint >= 2) {
-        Algo[algo]();
+    console.log(algo);
+    if (algo != "bresenhamCircle") {
+        if (selectedPoint >= 2) {
+            Algo[algo]();
+            reset();
+        }
+    } else {
+        const radius = prompt("Masukkan radius: ");
+        Algo[algo](parseInt(radius));
         reset();
     }
 }
