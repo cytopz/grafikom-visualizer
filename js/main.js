@@ -53,25 +53,28 @@ const Algo = {
                 yc = center[1],
                 x = point[0],
                 y = point[1];
-            console.log(xc, yc, x, y);
-            try {
-                fillPixel(document.getElementById(`${xc+x},${yc+y}`), green);
-                fillPixel(document.getElementById(`${xc-x},${yc+y}`), green);
-                fillPixel(document.getElementById(`${xc+x},${yc-y}`), green);
-                fillPixel(document.getElementById(`${xc-x},${yc-y}`), green);
-                fillPixel(document.getElementById(`${xc+x},${yc+y}`), green);
-                fillPixel(document.getElementById(`${xc-x},${yc+y}`), green);
-                fillPixel(document.getElementById(`${xc+x},${yc-y}`), green);
-                fillPixel(document.getElementById(`${xc-x},${yc-y}`), green);
-            }
-            catch(err) {
-                return;
-            }
+            points = [
+                {x: xc+x, y: yc+y},
+                {x: xc-x, y: yc+y},
+                {x: xc+x, y: yc-y},
+                {x: xc-x, y: yc-y},
+                {x: xc+y, y: yc+x},
+                {x: xc-y, y: yc+x},
+                {x: xc+y, y: yc-x},
+                {x: xc-y, y: yc-x},
+            ];
+            points = points.filter((point) => (point.x <= 25 && point.y <=25) && (point.x >= 0 && point.y >= 0));
+            points.forEach((point) => {
+                let elem = document.getElementById(`${point.x},${point.y}`);
+                fillPixel(elem, green);
+            });
+            return points;
         }
         let center = [point[0][0], point[0][1]];
         let x = 0;
         let y = radius;
         let d = 3 - 2 * radius;
+        let points = [];
         while (y >= x) {
             x++;
             if (d > 0) {
@@ -80,8 +83,14 @@ const Algo = {
             } else {
                 d += 4 * x + 6;
             }
-            fill8Octants(center, [x, y]);
+            points = points.concat(fill8Octants(center, [x, y]));
         }
+        points = [
+            ...points.map(obj => `${obj.x},${obj.y}`)
+        ];
+        showResult(
+            [...new Set(points)].map(str => str.split(","))
+        );
     }
 }
 
@@ -123,7 +132,6 @@ const select = (x, y) => {
     selectedPoint++;
     point.push([x, y]);
     document.querySelector('.selected-point').innerHTML += `<b>(${x}, ${y}) </b>`
-    console.log(algo);
     if (algo != "bresenhamCircle") {
         if (selectedPoint >= 2) {
             Algo[algo]();
