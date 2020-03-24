@@ -1,5 +1,5 @@
-const xSize = 25;
-const ySize = 25;
+const xSize = 26;
+const ySize = 26;
 const red = "#ff0000";
 const green = "#00ff00";
 const algo = document.getElementsByTagName('algo')[0].id
@@ -62,8 +62,8 @@ const Algo = {
                 {x: xc-y, y: yc+x},
                 {x: xc+y, y: yc-x},
                 {x: xc-y, y: yc-x},
-            ];
-            points = points.filter((point) => (point.x <= 25 && point.y <=25) && (point.x >= 0 && point.y >= 0));
+            ]
+            .filter((point) => (point.x <= 25 && point.y <=25) && (point.x >= 0 && point.y >= 0))
             points.forEach((point) => {
                 let elem = document.getElementById(`${point.x},${point.y}`);
                 fillPixel(elem, green);
@@ -145,11 +145,8 @@ const select = (x, y) => {
 }
 
 const showResult = points => {
-    let result = "";
     let resultContainer = document.querySelector('.result')
     points.forEach(item => {
-        result += `(${item[0]}, ${item[1]})<br>`;
-    })
-    resultContainer.innerHTML = result;
+        resultContainer.innerHTML += `(${item[0]}, ${item[1]})<br>`;
+    });
 }
-
