@@ -2,7 +2,7 @@ const xSize = 26;
 const ySize = 26;
 const red = "#ff0000";
 const green = "#00ff00";
-const algo = document.getElementsByTagName('algo')[0].id
+const algo = document.getElementsByTagName('algo')[0].id;
 let point = [];
 let selectedPoint = 0;
 let alreadyHasLine = false;
@@ -117,6 +117,7 @@ const reset = (hardReset=false) => {
             item.removeAttribute('style');
         });
         document.querySelector('.selected-point').innerHTML = "";
+        document.querySelector('.result').innerHTML = "";
         alreadyHasLine = false;
     }
 }
